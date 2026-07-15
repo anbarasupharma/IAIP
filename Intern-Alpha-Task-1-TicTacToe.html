@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Tic-Tac-Toe</title>
+    <style>
+        /* Base Reset & Fonts */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #e0e7ff, #faf5ff, #fce7f3);
+            min-height: 100vh;
+            padding: 1.5rem;
+            color: #374151;
+        }
+
+        .container {
+            max-width: 1152px;
+            margin: 0 auto;
+        }
+
+        /* Typography */
+        .text-center { text-align: center; }
+        .title {
+            font-size: 4.5rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #2563eb, #9333ea, #db2777);
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.75rem;
+            line-height: 1;
+        }
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #374151;
+        }
+        .desc {
+            color: #4b5563;
+            margin-top: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Layout Grids */
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (min-width: 1024px) {
+            .game-layout {
+                grid-template-columns: 1fr 3fr 1fr;
+            }
+        }
+
+        /* Player Cards */
+        .player-card {
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 4px solid;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
+        }
+
+        .player-1 {
+            background: linear-gradient(to bottom right, #dbeafe, #bfdbfe);
+            border-color: #60a5fa;
+        }
+        .player-2 {
+            background: linear-gradient(to bottom right, #fee2e2, #fecaca);
+            border-color: #f87171;
+        }
+
+        .player-icon {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+        }
+        .player-card:hover .player-icon {
+            transform: scale(1.1);
+        }
+
+        .player-name {
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+        .player-1 .player-name { color: #1d4ed8; }
+        .player-2 .player-name { color: #b91c1c; }
+
+        .player-role {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .player-1 .player-role { color: #2563eb; }
+        .player-2 .player-role { color: #dc2626; }
+
+        .score-box {
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            border: 3px solid;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .player-1 .score-box { border-color: #93c5fd; }
+        .player-2 .score-box { border-color: #fca5a5; }
+
+        .score {
+            font-size: 2.25rem;
+            font-weight: 900;
+        }
+        .player-1 .score { color: #2563eb; }
+        .player-2 .score { color: #dc2626; }
+
+        .score-label {
+            font-size: 0.875rem;
+            color: #4b5563;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Turn Indicator */
+        .turn-indicator {
+            margin-top: 1rem;
+            display: none; /* toggled via JS */
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .turn-indicator span {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            color: white;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+        .player-1 .turn-indicator span { background: #3b82f6; }
+        .player-2 .turn-indicator span { background: #ef4444; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+
+        /* Status Bar */
+        .status-bar {
+            width: 100%;
+            padding: 2rem;
+            border-radius: 1.5rem;
+            text-align: center;
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 4px solid;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .status-p1 {
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            color: white;
+            border-color: #60a5fa;
+        }
+        .status-p2 {
+            background: linear-gradient(to right, #ef4444, #dc2626);
+            color: white;
+            border-color: #f87171;
+        }
+        .status-win {
+            background: linear-gradient(to right, #eab308, #f59e0b);
+            color: white;
+            border-color: #fde047;
+        }
+        .status-tie {
+            background: linear-gradient(to right, #fde047, #fb923c);
+            color: #1f2937;
+            border-color: #eab308;
+        }
+
+        /* Board Area */
+        .board-container {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 4px solid #e9d5ff;
+        }
+        .board-header {
+            text-align: center;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            background: linear-gradient(to bottom right, #f9fafb, #f3f4f6);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 3px solid #d1d5db;
+            justify-items: center;
+        }
+
+        /* Cells */
+        .cell {
+            width: 100%;
+            aspect-ratio: 1;
+            max-width: 112px;
+            max-height: 112px;
+            border-radius: 1rem;
+            border: 3px solid #d1d5db;
+            background: linear-gradient(to bottom right, #ffffff, #f9fafb);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cell:hover:not(:disabled) {
+            border-color: #c084fc;
+            background: linear-gradient(to bottom right, #f9fafb, #ffffff);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .cell:disabled { cursor: default; }
+
+        .cell.x-filled {
+            background: linear-gradient(to bottom right, #3b82f6, #2563eb);
+            border-color: #60a5fa;
+            color: white;
+        }
+        .cell.o-filled {
+            background: linear-gradient(to bottom right, #ef4444, #dc2626);
+            border-color: #f87171;
+            color: white;
+        }
+        .cell.win-cell {
+            box-shadow: 0 0 0 4px #facc15, 0 25px 50px -12px rgba(0,0,0,0.5);
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        /* Rules */
+        .rules {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border: 3px solid #e9d5ff;
+            margin-bottom: 2rem;
+        }
+        .rules-title {
+            font-weight: 700;
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .rules-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            .rules-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        .rule-card {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid;
+        }
+        .rule-card p:first-child { font-weight: 700; margin-bottom: 0.5rem; }
+        .rule-card p:last-child { font-size: 0.875rem; color: #4b5563; }
+        
+        .rule-1 { background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8; }
+        .rule-2 { background: #faf5ff; border-color: #e9d5ff; color: #7e22ce; }
+        .rule-3 { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+
+        /* Actions */
+        .action-area {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .btn-play-again {
+            display: none; /* Toggled via JS */
+            padding: 1.25rem 2rem;
+            background: linear-gradient(to right, #22c55e, #10b981, #14b8a6);
+            color: white;
+            font-weight: 900;
+            font-size: 1.25rem;
+            border-radius: 1rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .btn-play-again:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* History */
+        .history-section {
+            display: none; /* Toggled via JS */
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 4px solid #e9d5ff;
+            margin-bottom: 2rem;
+        }
+        .history-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+        }
+        .history-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            max-height: 18rem;
+            overflow-y: auto;
+        }
+        @media (min-width: 768px) {
+            .history-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 1024px) {
+            .history-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        .history-item {
+            padding: 1.25rem;
+            border-radius: 1rem;
+            border: 3px solid;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+        }
+        .hist-tablet { background: linear-gradient(to right, #dbeafe, #bfdbfe); border-color: #60a5fa; color: #1d4ed8; }
+        .hist-capsule { background: linear-gradient(to right, #fee2e2, #fecaca); border-color: #f87171; color: #b91c1c; }
+        .hist-tie { background: linear-gradient(to right, #fef08a, #fede04); border-color: #facc15; color: #a16207; }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: #4b5563;
+            margin-top: 2.5rem;
+        }
+        .footer p:first-child { font-weight: 600; font-size: 1.125rem; }
+        .footer p:last-child { font-size: 0.875rem; margin-top: 0.5rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <div class="text-center">
+        <h1 class="title">Pharmacy TicTacToe</h1>
+        <p class="subtitle">Tablet ⚔️ Capsule</p>
+        <p class="desc">The Ultimate Medication Shelf Game</p>
+    </div>
+
+    <!-- Main Game Container -->
+    <div class="game-layout">
+        
+        <!-- Player 1 -->
+        <div class="player-card player-1">
+            <div class="player-icon" id="p1-icon-container"></div>
+            <h3 class="player-name">Player 1</h3>
+            <p class="player-role">TABLET</p>
+            <div class="score-box">
+                <p class="score" id="score-x">0</p>
+                <p class="score-label">Wins</p>
+            </div>
+            <div class="turn-indicator" id="p1-turn">
+                <span>Your Turn!</span>
+            </div>
+        </div>
+
+        <!-- Center Area -->
+        <div>
+            <!-- Status Bar -->
+            <div class="status-bar status-p1" id="status-bar">
+                <span id="status-icon">💊</span>
+                <span id="status-text">Turn: Tablet</span>
+            </div>
+
+            <!-- Board -->
+            <div class="board-container">
+                <h2 class="board-header">💊 Medication Shelf</h2>
+                <div class="board" id="board">
+                    <!-- Cells generated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Player 2 -->
+        <div class="player-card player-2">
+            <div class="player-icon" id="p2-icon-container"></div>
+            <h3 class="player-name">Player 2</h3>
+            <p class="player-role">CAPSULE</p>
+            <div class="score-box">
+                <p class="score" id="score-o">0</p>
+                <p class="score-label">Wins</p>
+            </div>
+            <div class="turn-indicator" id="p2-turn">
+                <span>Your Turn!</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="rules">
+        <h3 class="rules-title"><span>📋</span> Game Rules</h3>
+        <div class="rules-grid">
+            <div class="rule-card rule-1">
+                <p>1️⃣ Players Alternate</p>
+                <p>Players take turns placing their symbol (Tablet or Capsule) on the 3x3 grid.</p>
+            </div>
+            <div class="rule-card rule-2">
+                <p>2️⃣ Get Three in a Row</p>
+                <p>Win by aligning 3 of your symbols horizontally, vertically, or diagonally.</p>
+            </div>
+            <div class="rule-card rule-3">
+                <p>3️⃣ Tie or Win</p>
+                <p>If all 9 spaces are filled with no winner, it's a tie game.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-area">
+        <button class="btn-play-again" id="btn-reset" onclick="resetGame()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Play Again
+        </button>
+    </div>
+
+    <!-- History -->
+    <div class="history-section" id="history-section">
+        <h3 class="history-title">📊 Game History</h3>
+        <div class="history-grid" id="history-grid">
+            <!-- History items generated by JS -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Made with ❤️ for Pharmacy Professionals</p>
+        <p>Tablet vs Capsule - The Ultimate Showdown</p>
+    </div>
+</div>
+
+<script>
+    // --- State Variables ---
+    let board = Array(9).fill(null);
+    let isXNext = true;
+    let scoreX = 0;
+    let scoreO = 0;
+    let gameOver = false;
+    let gameHistory = [];
+    let winnerInfo = null;
+
+    // --- DOM Elements ---
+    const boardEl = document.getElementById('board');
+    const statusBar = document.getElementById('status-bar');
+    const statusText = document.getElementById('status-text');
+    const statusIcon = document.getElementById('status-icon');
+    const p1Turn = document.getElementById('p1-turn');
+    const p2Turn = document.getElementById('p2-turn');
+    const scoreXEl = document.getElementById('score-x');
+    const scoreOEl = document.getElementById('score-o');
+    const btnReset = document.getElementById('btn-reset');
+    const historySection = document.getElementById('history-section');
+    const historyGrid = document.getElementById('history-grid');
+
+    // --- SVGs ---
+    const getTabletSVG = (filled = false, size = 64) => `
+        <svg width="${size}" height="${size}" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: ${filled ? '#ffffff' : '#3b82f6'};">
+            <rect x="15" y="10" width="70" height="100" rx="8" fill="${filled ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="3" />
+            <rect x="20" y="15" width="60" height="75" rx="4" fill="${filled ? 'currentColor' : 'none'}" opacity="${filled ? '0.2' : '0'}" stroke="${filled ? 'currentColor' : 'none'}" stroke-width="2" />
+            ${filled ? '<circle cx="50" cy="60" r="8" fill="currentColor" opacity="0.6" />' : ''}
+        </svg>
+    `;
+
+    const getCapsuleSVG = (filled = false, size = 64) => `
+        <svg width="${size}" height="${size}" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: ${filled ? '#ffffff' : '#ef4444'};">
+            <path d="M 30 30 Q 20 30 20 60 Q 20 90 30 90 L 50 90 L 50 30 Z" fill="${filled ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="3" />
+            <path d="M 50 30 L 70 30 Q 80 30 80 60 Q 80 90 70 90 L 50 90 Z" fill="${filled ? 'currentColor' : 'none'}" opacity="${filled ? '0.7' : '1'}" stroke="currentColor" stroke-width="3" />
+            <line x1="50" y1="30" x2="50" y2="90" stroke="currentColor" stroke-width="2" />
+        </svg>
+    `;
+
+    // Initialize static player icons
+    document.getElementById('p1-icon-container').innerHTML = getTabletSVG(true, 80);
+    document.getElementById('p2-icon-container').innerHTML = getCapsuleSVG(true, 80);
+
+    // --- Game Logic ---
+    function initBoard() {
+        boardEl.innerHTML = '';
+        for (let i = 0; i < 9; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'cell';
+            btn.dataset.index = i;
+            btn.onclick = () => handleCellClick(i);
+            boardEl.appendChild(btn);
+        }
+    }
+
+    function calculateWinner(squares) {
+        const lines = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Cols
+            [0, 4, 8], [2, 4, 6]             // Diags
+        ];
+        for (let i = 0; i < lines.length; i++) {
+            const [a, b, c] = lines[i];
+            if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+                return { winner: squares[a], line: lines[i] };
+            }
+        }
+        return null;
+    }
+
+    function handleCellClick(index) {
+        if (board[index] || gameOver) return;
+
+        // Update state
+        board[index] = isXNext ? 'X' : 'O';
+        isXNext = !isXNext;
+        
+        // Check win/tie
+        winnerInfo = calculateWinner(board);
+        const isBoardFull = board.every(square => square !== null);
+        
+        if (winnerInfo || isBoardFull) {
+            gameOver = true;
+        }
+
+        updateUI();
+    }
+
+    function resetGame() {
+        // Log History
+        const moves = board.filter(s => s !== null).length;
+        if (winnerInfo) {
+            if (winnerInfo.winner === 'X') scoreX++;
+            else scoreO++;
+            
+            gameHistory.push({
+                winner: winnerInfo.winner === 'X' ? 'Tablet' : 'Capsule',
+                moves: moves
+            });
+        } else {
+            gameHistory.push({ winner: 'Tie', moves: moves });
+        }
+
+        // Reset State
+        board = Array(9).fill(null);
+        isXNext = true;
+        gameOver = false;
+        winnerInfo = null;
+
+        updateUI();
+    }
+
+    // --- UI Rendering ---
+    function updateUI() {
+        const cells = document.querySelectorAll('.cell');
+        
+        // Update Board Cells
+        board.forEach((value, index) => {
+            const cell = cells[index];
+            cell.className = 'cell'; // reset classes
+            cell.innerHTML = '';
+            cell.disabled = !!value || gameOver;
+
+            if (value === 'X') {
+                cell.classList.add('x-filled');
+                cell.innerHTML = getTabletSVG(true, 72);
+            } else if (value === 'O') {
+                cell.classList.add('o-filled');
+                cell.innerHTML = getCapsuleSVG(true, 72);
+            }
+
+            // Highlight win line
+            if (winnerInfo && winnerInfo.line.includes(index)) {
+                cell.classList.add('win-cell');
+            }
+        });
+
+        // Update Scores
+        scoreXEl.textContent = scoreX;
+        scoreOEl.textContent = scoreO;
+
+        // Update Status & Turns
+        const isBoardFull = board.every(s => s !== null);
+        statusBar.className = 'status-bar'; // reset
+
+        if (winnerInfo) {
+            if (winnerInfo.winner === 'X') {
+                statusBar.classList.add('status-win');
+                statusText.textContent = '🏆 Tablet Wins!';
+                statusIcon.textContent = '💊';
+            } else {
+                statusBar.classList.add('status-win');
+                statusText.textContent = '🏆 Capsule Wins!';
+                statusIcon.textContent = '💉';
+            }
+            p1Turn.style.display = 'none';
+            p2Turn.style.display = 'none';
+        } else if (isBoardFull) {
+            statusBar.classList.add('status-tie');
+            statusText.textContent = '🤝 Tie Game!';
+            statusIcon.textContent = '🎯';
+            p1Turn.style.display = 'none';
+            p2Turn.style.display = 'none';
+        } else {
+            if (isXNext) {
+                statusBar.classList.add('status-p1');
+                statusText.textContent = 'Turn: Tablet';
+                statusIcon.textContent = '💊';
+                p1Turn.style.display = 'block';
+                p2Turn.style.display = 'none';
+            } else {
+                statusBar.classList.add('status-p2');
+                statusText.textContent = 'Turn: Capsule';
+                statusIcon.textContent = '💉';
+                p1Turn.style.display = 'none';
+                p2Turn.style.display = 'block';
+            }
+        }
+
+        // Action Button Visibility
+        btnReset.style.display = gameOver ? 'flex' : 'none';
+
+        // Update History Section
+        if (gameHistory.length > 0) {
+            historySection.style.display = 'block';
+            historyGrid.innerHTML = '';
+            gameHistory.forEach((game, idx) => {
+                const div = document.createElement('div');
+                let colorClass = game.winner === 'Tablet' ? 'hist-tablet' : 
+                                 game.winner === 'Capsule' ? 'hist-capsule' : 'hist-tie';
+                let icon = game.winner === 'Tablet' ? '💊' : 
+                           game.winner === 'Capsule' ? '💉' : '🤝';
+                
+                div.className = `history-item ${colorClass}`;
+                div.innerHTML = `
+                    <span>Game ${idx + 1}</span>
+                    <span style="font-size: 0.875rem;">${icon} ${game.winner}</span>
+                `;
+                historyGrid.appendChild(div);
+            });
+        } else {
+            historySection.style.display = 'none';
+        }
+    }
+
+    // Initial Render
+    initBoard();
+    updateUI();
+</script>
+</body>
+</html>
