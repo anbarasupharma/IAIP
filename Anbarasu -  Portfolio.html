@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anbarasu Murugan - Formulation & Development Portfolio</title>
+<!-- Academic/Professional Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>
+  // Prevent flash of incorrect theme on load
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+</script>
+<style>
+  :root {
+    /* LIGHT THEME (Default CSS Variables) */
+    --bg: #F8FAFC;
+    --surface: #FFFFFF;
+    --surface2: #F1F5F9;
+    --border: #E2E8F0;
+    --accent: #2563EB; 
+    --accent2: #0369A1; 
+    --text: #0F172A; 
+    --muted: #64748B; 
+    --success: #0284C7; 
+    --danger: #EF4444;
+    --radius: 8px; 
+    --font-head: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  :root[data-theme="dark"] {
+    /* DARK THEME (Navy Blue Formulation Theme) */
+    --bg: #0F172A; 
+    --surface: #1E293B; 
+    --surface2: #334155; 
+    --border: #334155;
+    --accent: #2563EB; 
+    --accent2: #38BDF8; 
+    --text: #FFFFFF; 
+    --muted: #94A3B8; 
+    --success: #38BDF8; 
+    --danger: #EF4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { 
+    background: var(--bg); 
+    color: var(--text); 
+    font-family: var(--font-body); 
+    min-height: 100vh; 
+    overflow-x: hidden; 
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Transition for theme elements */
+  .skill-card, .project-card, .timeline-dot, .tl-desc, .cert-card, .contact-icon, .contact-form, .resume-section, .modal, .login-card, footer {
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: var(--bg); 
+    opacity: 0.95;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 70px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  .nav-logo { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; color: var(--text); }
+  
+  .nav-right-cluster { display: flex; align-items: center; gap: 20px; }
+  
+  .nav-links { display: flex; gap: 12px; align-items: center; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 0.9rem;
+    padding: 8px 16px; border-radius: var(--radius); transition: all .2s; font-weight: 500;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--accent2); background: var(--surface2); }
+  .admin-btn {
+    background: var(--surface2) !important; color: var(--text) !important;
+    border: 1px solid var(--border);
+    padding: 8px 16px !important; border-radius: var(--radius);
+    font-weight: 600 !important; font-size: 0.85rem !important;
+  }
+  .admin-btn:hover { background: var(--accent) !important; border-color: var(--accent) !important; color: #fff !important; }
+
+  /* Nav Controls (Theme & Mobile Menu) */
+  .nav-controls { display: flex; align-items: center; gap: 15px; }
+  .theme-toggle, .menu-btn {
+    background: none; border: none; color: var(--text);
+    font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    padding: 6px; border-radius: 50%; transition: background 0.2s;
+  }
+  .theme-toggle:hover, .menu-btn:hover { background: var(--surface2); }
+  .menu-btn { display: none; } /* Hidden on desktop */
+
+  /* SECTIONS */
+  section { padding: 120px 40px 60px; max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--font-body); font-size: 0.8rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 3px; color: var(--accent2);
+    margin-bottom: 12px;
+  }
+  h2.section-title {
+    font-family: var(--font-head); font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 700; line-height: 1.2; margin-bottom: 48px; color: var(--accent2);
+  }
+
+  /* HERO */
+  #home {
+    min-height: 100vh; display: flex; align-items: center;
+    padding-top: 80px; gap: 60px; max-width: 1100px; margin: 0 auto;
+  }
+  .hero-left { flex: 1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 100px; padding: 6px 16px; font-size: 0.85rem;
+    color: var(--accent2); margin-bottom: 28px; font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+  .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  h1 { font-family: var(--font-head); font-size: clamp(2.5rem,5vw,3.8rem); font-weight: 800; line-height: 1.1; margin-bottom: 24px; color: var(--text); }
+  h1 .accent2 { color: var(--accent2); }
+  .hero-sub { color: var(--muted); font-size: 1.1rem; line-height: 1.8; max-width: 540px; margin-bottom: 40px; }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+  
+  .btn-primary {
+    background: var(--accent); color: #fff; border: 1px solid var(--accent);
+    padding: 12px 28px; border-radius: var(--radius); font-size: 0.95rem;
+    font-weight: 600; cursor: pointer; text-decoration: none;
+    transition: all .2s; font-family: var(--font-body);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+  }
+  .btn-primary:hover { background: #1D4ED8; border-color: #1D4ED8; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5); }
+  
+  .btn-outline {
+    background: transparent; color: var(--accent2);
+    border: 1px solid var(--accent2); padding: 12px 28px;
+    border-radius: var(--radius); font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; text-decoration: none; transition: all .2s;
+    font-family: var(--font-body); 
+  }
+  .btn-outline:hover { background: rgba(56, 189, 248, 0.1); transform: translateY(-2px); }
+
+  /* PROFILE PIC */
+  .hero-right { flex-shrink: 0; }
+  .profile-wrap { position: relative; width: 300px; height: 300px; }
+  .profile-img-container {
+    position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
+    background: var(--surface); display: flex; align-items: center; justify-content: center;
+    border: 4px solid var(--accent2); box-shadow: 0 10px 40px rgba(56, 189, 248, 0.15);
+    cursor: pointer; z-index: 1;
+  }
+  .profile-img-container img { width: 100%; height: 100%; object-fit: cover; }
+  .profile-placeholder {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    color: var(--muted); font-size: 0.9rem; text-align: center; padding: 20px;
+  }
+  .profile-upload-hint {
+    position: absolute; bottom: 10px; right: 20px; z-index: 10;
+    background: var(--accent); border-radius: 50%; width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center; color: #fff;
+    cursor: pointer; border: 3px solid var(--bg); transition: all .2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+  .profile-upload-hint:hover { transform: scale(1.1); background: var(--accent2); }
+  .admin-only { display: none; }
+  body.admin-mode .admin-only { display: flex; }
+
+  /* STATS ROW */
+  .stats-row { display: flex; gap: 40px; margin-top: 48px; padding-top: 30px; border-top: 1px solid var(--border); }
+  .stat { display: flex; flex-direction: column; gap: 4px; }
+  .stat-num { font-family: var(--font-head); font-size: 2.2rem; font-weight: 700; color: var(--accent2); }
+  .stat-label { font-size: 0.85rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .about-text { color: var(--muted); font-size: 1.05rem; line-height: 1.8; }
+  .about-text p + p { margin-top: 16px; }
+  .about-details { display: flex; flex-direction: column; gap: 20px; background: var(--surface); padding: 32px; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+  .detail-row { display: flex; gap: 16px; align-items: flex-start; }
+  .detail-icon { width: 42px; height: 42px; border-radius: var(--radius); background: var(--surface2); color: var(--accent2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
+  .detail-content label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+  .detail-content span { display: block; font-size: 0.95rem; font-weight: 500; margin-top: 4px; color: var(--text); }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+  .skill-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px 16px;
+    text-align: center; transition: all .2s; position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex; flex-direction: column;
+  }
+  .skill-card:hover { border-color: var(--accent2); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(56, 189, 248, 0.1); }
+  .skill-icon { font-size: 2rem; margin-bottom: 12px; }
+  .skill-name { font-size: 0.85rem; font-weight: 600; color: var(--text); line-height: 1.4; flex: 1; }
+  .skill-level { font-size: 0.75rem; color: var(--muted); margin-top: 8px; }
+  .skill-bar { height: 4px; background: var(--bg); border-radius: 2px; margin-top: 14px; overflow: hidden; }
+  .skill-fill { height: 100%; background: var(--accent2); border-radius: 2px; transition: width .8s ease; }
+  .remove-btn {
+    position: absolute; top: 8px; right: 8px; background: var(--danger); color: #fff; border: none;
+    width: 24px; height: 24px; border-radius: 50%; font-size: 14px; cursor: pointer; display: none; align-items: center; justify-content: center;
+  }
+  body.admin-mode .skill-card:hover .remove-btn { display: flex; }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+  .project-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; transition: all .2s;
+    display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+  .project-card:hover { border-color: var(--accent2); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(56, 189, 248, 0.1); }
+  .project-banner { height: 120px; background: var(--surface2); position: relative; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; border-bottom: 1px solid var(--border); }
+  .project-body { padding: 28px; flex: 1; display: flex; flex-direction: column; }
+  .project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 4px 12px; font-size: 0.75rem; color: var(--accent2); font-weight: 700; }
+  .project-title { font-family: var(--font-head); font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+  .project-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.7; flex: 1; }
+  .project-links { display: flex; gap: 16px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .project-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 600; color: var(--accent2); text-decoration: none; transition: color .2s; }
+  .project-link:hover { color: var(--accent); text-decoration: underline; }
+  .project-actions { display: none; position: absolute; top: 12px; right: 12px; gap: 6px; }
+  body.admin-mode .project-actions { display: flex; }
+  .proj-action-btn { background: var(--danger); color: #fff; border: none; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 48px; }
+  .timeline-dot { position: absolute; left: -32px; top: 6px; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); border: 4px solid var(--accent2); box-shadow: 0 0 0 4px var(--bg); }
+  .tl-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 8px; }
+  .tl-title { font-family: var(--font-head); font-size: 1.2rem; font-weight: 700; color: var(--text); }
+  .tl-org { color: var(--accent2); font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
+  .tl-date { font-size: 0.8rem; color: var(--muted); background: var(--surface); border: 1px solid var(--border); padding: 4px 12px; border-radius: 100px; font-weight: 600; }
+  .tl-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.7; margin-top: 12px; background: var(--surface); padding: 20px; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+  .tl-remove { float: right; background: var(--danger); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; display: none; }
+  body.admin-mode .tl-remove { display: inline-block; }
+
+  /* CERTIFICATES */
+  .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+  .cert-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; gap: 16px; align-items: flex-start; transition: all .2s; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+  .cert-card:hover { border-color: var(--accent2); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1); }
+  .cert-icon { width: 48px; height: 48px; border-radius: var(--radius); background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+  .cert-body { flex: 1; min-width: 0; }
+  .cert-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; color: var(--text); line-height: 1.4; }
+  .cert-title a { color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .cert-title a:hover { color: var(--accent2); text-decoration: underline; }
+  .cert-org { color: var(--muted); font-size: 0.85rem; font-weight: 500; }
+  .cert-date { color: var(--muted); font-size: 0.8rem; margin-top: 8px; }
+  .cert-file { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 0.85rem; color: var(--accent2); text-decoration: none; font-weight: 700; }
+  .cert-file:hover { color: var(--accent); text-decoration: underline; }
+  .cert-remove { position: absolute; top: 12px; right: 12px; background: var(--danger); color: #fff; border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-size: 12px; display: none; align-items: center; justify-content: center; }
+  body.admin-mode .cert-remove { display: flex; }
+
+  /* CONTACT */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+  .contact-info { display: flex; flex-direction: column; gap: 24px; }
+  .contact-item { display: flex; gap: 16px; align-items: center; }
+  .contact-icon { width: 48px; height: 48px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); color: var(--accent2); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+  .contact-text label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+  .contact-text span, .contact-text a { display: block; font-size: 0.95rem; margin-top: 4px; color: var(--text); font-weight: 500; text-decoration: none; }
+  .contact-text a:hover { color: var(--accent2); text-decoration: underline; }
+  
+  .contact-form { display: flex; flex-direction: column; gap: 20px; background: var(--surface); padding: 40px; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+  .form-field { display: flex; flex-direction: column; gap: 8px; }
+  .form-field label { font-size: 0.85rem; color: var(--text); font-weight: 600; }
+  .form-field input, .form-field textarea { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 14px; color: var(--text); font-family: var(--font-body); font-size: 0.95rem; transition: all .2s; outline: none; resize: none; }
+  .form-field input:focus, .form-field textarea:focus { border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2); }
+
+  /* RESUME COMPONENT IN ABOUT */
+  .resume-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+  .resume-info h4 { font-family: var(--font-head); font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+  .resume-info p { color: var(--muted); font-size: 0.9rem; }
+  .resume-actions { display: flex; gap: 12px; align-items: center; }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 60px 40px; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); background: var(--surface); margin-top: 60px; }
+
+  /* ADD BUTTON */
+  .add-btn { display: none; align-items: center; gap: 8px; background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: var(--radius); font-size: 0.9rem; font-weight: 600; cursor: pointer; margin-bottom: 24px; font-family: var(--font-body); transition: all .2s; }
+  .add-btn:hover { background: #1D4ED8; transform: translateY(-2px); }
+  body.admin-mode .add-btn { display: inline-flex; }
+
+  /* MODALS & ADMIN SETTINGS */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; padding: 40px; animation: modalIn .25s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+  @keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+  .modal-title { font-family: var(--font-head); font-size: 1.4rem; font-weight: 700; color: var(--text); }
+  .modal-close { background: var(--surface2); border: none; color: var(--text); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center; transition: background .2s; }
+  .modal-close:hover { background: var(--danger); color: #fff; }
+  .modal-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .modal-field label { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+  .modal-field input, .modal-field textarea, .modal-field select { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 0.95rem; outline: none; resize: none; transition: all .2s; }
+  .modal-field input:focus, .modal-field textarea:focus, .modal-field select:focus { border-color: var(--accent2); background: var(--surface); }
+  .modal-actions { display: flex; gap: 12px; margin-top: 12px; justify-content: flex-end; }
+  
+  #admin-login { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 3000; display: none; align-items: center; justify-content: center; }
+  #admin-login.open { display: flex; }
+  .login-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; width: 400px; max-width: 90vw; animation: modalIn .3s ease; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .login-card h3 { font-family: var(--font-head); font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+  .login-card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 24px; }
+  .login-error { color: var(--danger); font-size: 0.85rem; margin-top: 12px; display: none; font-weight: 500; }
+  
+  .admin-badge { position: fixed; bottom: 30px; right: 30px; z-index: 1500; background: var(--surface); border: 1px solid var(--border); border-radius: 100px; padding: 10px 20px; display: none; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text); font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+  body.admin-mode .admin-badge { display: flex; }
+  .admin-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--success); }
+  .logout-btn { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 0.85rem; font-weight: 700; margin-left: 8px; }
+
+  /* RESPONSIVE & MOBILE MENU */
+  @media (max-width: 850px) {
+    nav { padding: 0 20px; height: 65px; }
+    .menu-btn { display: flex; }
+    
+    .nav-links {
+      position: fixed; top: 65px; right: -100%; 
+      flex-direction: column; align-items: flex-start;
+      background: var(--surface); width: 260px; height: calc(100vh - 65px);
+      padding: 30px 20px; transition: right 0.3s ease;
+      box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+    }
+    .nav-links.open { right: 0; }
+    .nav-links a { width: 100%; text-align: left; padding: 14px 16px; font-size: 1rem; border-radius: var(--radius); }
+    .nav-links a.admin-btn { text-align: center; margin-top: auto; margin-bottom: 20px; }
+
+    section { padding: 100px 20px 40px; }
+    #home { flex-direction: column-reverse; text-align: center; padding: 100px 20px 40px; gap: 40px; }
+    .hero-left { align-items: center; display: flex; flex-direction: column; }
+    .hero-actions { justify-content: center; }
+    .profile-wrap { width: 220px; height: 220px; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .stats-row { gap: 24px; justify-content: center; flex-wrap: wrap; }
+    .resume-section { flex-direction: column; text-align: center; gap: 20px; }
+    .skills-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .cert-card { flex-direction: column; align-items: flex-start; }
+  }
+
+  [contenteditable="true"] { outline: 1px dashed var(--accent2); border-radius: 4px; min-width: 40px; padding: 2px 6px; background: rgba(56, 189, 248, 0.05); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span id="nav-name">Anbarasu Murugan</span></div>
+  
+  <div class="nav-links" id="nav-links">
+    <a href="#home" class="active" onclick="closeMenuAndSetActive(this)">Home</a>
+    <a href="#about" onclick="closeMenuAndSetActive(this)">About</a>
+    <a href="#skills" onclick="closeMenuAndSetActive(this)">Skills</a>
+    <a href="#projects" onclick="closeMenuAndSetActive(this)">Publications</a>
+    <a href="#experience" onclick="closeMenuAndSetActive(this)">Achievements</a>
+    <a href="#education" onclick="closeMenuAndSetActive(this)">Education</a>
+    <a href="#contact" onclick="closeMenuAndSetActive(this)">Contact</a>
+    <a href="#" class="admin-btn" onclick="closeMenu(); openAdminLogin(event)">⚙ Admin</a>
+  </div>
+
+  <div class="nav-controls">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme" title="Toggle Light/Dark Mode">
+      <svg id="theme-icon" width="22" height="22" fill="none" viewBox="0 0 24 24"></svg>
+    </button>
+    <button class="menu-btn" onclick="toggleMenu()" aria-label="Toggle Menu">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-left">
+    <div class="hero-badge"><span class="dot"></span> Open to Opportunities in R&D / QA & QC</div>
+    <h1>Hi, I'm <span class="accent2" id="hero-name" contenteditable="false">Anbarasu Murugan</span>,<br>a <span class="accent2">Pharmaceutical</span><br>Professional 🔬</h1>
+    <p class="hero-sub" id="hero-tagline" contenteditable="false">B.Pharm graduate with hands-on experience in formulation development, analytical testing, and pharmaceutical documentation.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View Publications</a>
+      <a href="#contact" class="btn-outline">Contact Me</a>
+      <a id="resume-download-btn" href="#" class="btn-outline" target="_blank" rel="noopener noreferrer">📄 View Full CV</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><span class="stat-num" id="stat-projects">0</span><span class="stat-label">Publications</span></div>
+      <div class="stat"><span class="stat-num" id="stat-skills">0</span><span class="stat-label">Core Skills</span></div>
+      <div class="stat"><span class="stat-num" id="stat-certs">0</span><span class="stat-label">Activities</span></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="profile-wrap">
+      <div class="profile-img-container" id="profile-container" onclick="triggerProfileUpload()">
+        <div class="profile-placeholder" id="profile-placeholder">
+          <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span>Upload Photo</span>
+        </div>
+        <img id="profile-img" style="display:none" src="" alt="Profile">
+      </div>
+      <div class="profile-upload-hint admin-only" id="profile-upload-btn" onclick="triggerProfileUpload()" title="Change Photo">
+        <svg width="20" height="20" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </div>
+    </div>
+    <input type="file" id="profile-file-input" accept="image/*" style="display:none" onchange="handleProfileUpload(event)">
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About Me</div>
+  <h2 class="section-title">Academic & Professional Background</h2>
+  <div class="about-grid">
+    <div>
+      <div class="about-text">
+        <p id="about-p1" contenteditable="false">I am a B.Pharm graduate from Kamalakshi Pandurangan College of Pharmacy with a strong focus on Pharmaceutical Research & Development, QA/QC, and Formulation Development.</p>
+        <p id="about-p2" contenteditable="false">I have hands-on experience in analytical testing methods (UV-Vis, pH meter, viscometer) and drug delivery system design. I actively publish in peer-reviewed journals (WJPR, IJPS) and participate in national conferences.</p>
+      </div>
+      <!-- RESUME SECTION -->
+      <div class="resume-section" style="margin-top: 32px;">
+        <div class="resume-info">
+          <h4>📄 Curriculum Vitae</h4>
+          <p id="resume-filename">Official Resume & Documents</p>
+        </div>
+        <div class="resume-actions">
+          <a id="resume-view-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn-outline" style="font-size:0.85rem; padding:10px 20px;">Access Drive</a>
+        </div>
+      </div>
+    </div>
+    <div class="about-details" id="about-details">
+      <div class="detail-row"><div class="detail-icon">🎓</div><div class="detail-content"><label>Degree</label><span id="detail-degree" contenteditable="false">Bachelor of Pharmacy (B.Pharm)</span></div></div>
+      <div class="detail-row"><div class="detail-icon">🏫</div><div class="detail-content"><label>Institution</label><span id="detail-college" contenteditable="false">Kamalakshi Pandurangan College of Pharmacy</span></div></div>
+      <div class="detail-row"><div class="detail-icon">📅</div><div class="detail-content"><label>Graduation Year</label><span id="detail-grad" contenteditable="false">March 2026</span></div></div>
+      <div class="detail-row"><div class="detail-icon">📍</div><div class="detail-content"><label>Location</label><span id="detail-location" contenteditable="false">Tiruvannamalai, Tamil Nadu, India</span></div></div>
+      <div class="detail-row"><div class="detail-icon">📧</div><div class="detail-content"><label>Email</label><span id="detail-email" contenteditable="false">anbarasaum@gmail.com</span></div></div>
+      <div class="detail-row"><div class="detail-icon">📱</div><div class="detail-content"><label>Contact</label><span id="detail-phone" contenteditable="false">+91 xxxx xxxx</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Core Competencies</div>
+  <h2 class="section-title">Skills & Expertise</h2>
+  <button class="add-btn" onclick="openModal('skill')">+ Add Skill</button>
+  <div class="skills-grid" id="skills-grid"></div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Research & Development</div>
+  <h2 class="section-title">Publications & Research</h2>
+  <button class="add-btn" onclick="openModal('project')">+ Add Publication</button>
+  <div class="projects-grid" id="projects-grid"></div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Milestones</div>
+  <h2 class="section-title">Key Achievements</h2>
+  <button class="add-btn" onclick="openModal('experience')">+ Add Achievement</button>
+  <div class="timeline" id="experience-list"></div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">Academic Record</div>
+  <h2 class="section-title">Education</h2>
+  <button class="add-btn" onclick="openModal('education')">+ Add Education</button>
+  <div class="timeline" id="education-list"></div>
+</section>
+
+<!-- CERTIFICATES -->
+<section id="certificates">
+  <div class="section-label">Professional Engagement</div>
+  <h2 class="section-title">Conferences & Activities</h2>
+  <button class="add-btn" onclick="openModal('cert')">+ Add Activity</button>
+  <div class="certs-grid" id="certs-grid"></div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Connect</div>
+  <h2 class="section-title">Get In Touch</h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="contact-item"><div class="contact-icon">📧</div><div class="contact-text"><label>Email</label><a href="mailto:anbarasaum@gmail.com" target="_blank" rel="noopener noreferrer" id="contact-email">anbarasaum@gmail.com</a></div></div>
+      <div class="contact-item"><div class="contact-icon">📱</div><div class="contact-text"><label>Phone</label><a href="javascript:void(0)" id="contact-phone">+91 xxxx xxxx</a></div></div>
+      <div class="contact-item"><div class="contact-icon">📍</div><div class="contact-text"><label>Location</label><span id="contact-location">Tiruvannamalai, Tamil Nadu</span></div></div>
+      <div class="contact-item"><div class="contact-icon">💼</div><div class="contact-text"><label>LinkedIn</label><a href="https://www.linkedin.com/in/anbarasum2003" target="_blank" rel="noopener noreferrer" id="contact-linkedin">linkedin.com/in/anbarasum2003</a></div></div>
+      <div class="contact-item"><div class="contact-icon">🎓</div><div class="contact-text"><label>Google Scholar</label><a href="https://scholar.google.com/citations?user=WpbrpjoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">View Citations Profile</a></div></div>
+      <div class="contact-item"><div class="contact-icon">📚</div><div class="contact-text"><label>ORCID</label><a href="https://orcid.org/0009-0007-0803-1126" target="_blank" rel="noopener noreferrer">0009-0007-0803-1126</a></div></div>
+      <div class="contact-item"><div class="contact-icon">🐙</div><div class="contact-text"><label>GitHub</label><a href="https://github.com/anbarasupharma" target="_blank" rel="noopener noreferrer">github.com/anbarasupharma</a></div></div>
+    </div>
+    <div class="contact-form">
+      <div class="form-field"><label>Your Name</label><input type="text" placeholder="Dr. John Doe"></div>
+      <div class="form-field"><label>Email</label><input type="email" placeholder="john.doe@university.edu"></div>
+      <div class="form-field"><label>Message</label><textarea rows="6" placeholder="I'd like to discuss a research collaboration or job opportunity..."></textarea></div>
+      <button class="btn-primary" onclick="sendMessage()" style="align-self:flex-start">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Built with ❤️ by <span id="footer-name">Anbarasu Murugan</span> · B.Pharm Graduate</p>
+</footer>
+
+<!-- ADMIN BADGE -->
+<div class="admin-badge">
+  <div class="admin-dot"></div>
+  Admin Mode ON
+  <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<!-- ADMIN LOGIN MODAL -->
+<div id="admin-login">
+  <div class="login-card">
+    <h3>🔐 Admin Login</h3>
+    <p>Enter password to manage portfolio content</p>
+    <div class="modal-field">
+      <label>Password</label>
+      <input type="password" id="admin-password" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeAdminLogin()">Cancel</button>
+      <button class="btn-primary" onclick="doLogin()">Login</button>
+    </div>
+    <div class="login-error" id="login-error">❌ Incorrect password. Try again.</div>
+    <p style="margin-top:16px;font-size:0.8rem;color:var(--muted)">Default password: <code style="background:var(--bg);padding:3px 8px;border-radius:4px;border:1px solid var(--border)">admin123</code></p>
+  </div>
+</div>
+
+<!-- GENERIC MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Add Item</div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// THEME & MOBILE MENU TOGGLE
+// ============================================================
+function updateThemeIcon(theme) {
+  const icon = document.getElementById('theme-icon');
+  if(theme === 'dark') {
+    // Sun icon for switching to light
+    icon.innerHTML = '<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+  } else {
+    // Moon icon for switching to dark
+    icon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+  }
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const currentTheme = html.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  updateThemeIcon(newTheme);
+}
+
+// Initialize icon on load
+updateThemeIcon(document.documentElement.getAttribute('data-theme'));
+
+function toggleMenu() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+
+function closeMenu() {
+  document.getElementById('nav-links').classList.remove('open');
+}
+
+function closeMenuAndSetActive(el) {
+  closeMenu();
+  setActive(el);
+}
+
+// ============================================================
+// DATA STORE
+// ============================================================
+const ADMIN_PASSWORD = 'admin123'; // Change this!
+
+let data = {
+  skills: [
+    { id: 1, name: 'Formulation & Development', icon: '🔬', level: 'Intermediate', pct: 65 },
+    { id: 2, name: 'Analytical Instruments', icon: '🧪', level: 'Intermediate', pct: 65 },
+    { id: 3, name: 'QA/QC', icon: '✅', level: 'Intermediate', pct: 65 },
+    { id: 4, name: 'Drugs Delivered', icon: '💊', level: 'Intermediate', pct: 65 },
+    { id: 5, name: 'GMP/ GLP & SOPs', icon: '📋', level: 'Intermediate', pct: 65 },
+    { id: 6, name: 'Scientific Writing', icon: '📝', level: 'Intermediate', pct: 65 },
+    { id: 7, name: 'Digital Skills (MS Word, Excel, PowerPoint, VS Code, GitHub)', icon: '💻', level: 'Basics', pct: 40 },
+    { id: 8, name: 'AI Tools (ChatGPT, Gemini, Microsoft Copilot, Claude)', icon: '🤖', level: 'Basics', pct: 40 }
+  ],
+  projects: [
+    { id: 1, title: 'Cosmetic Serum and Toner with Pineapple Peel Extract', desc: 'B.Pharm Project (WJPR Published). Formulated and evaluated natural cosmetics assessing pH, viscosity, stability, and antimicrobial activity.', tags: ['Formulation', 'QC Testing', 'Antimicrobial'], emoji: '🍍', liveUrl: 'https://www.wjpr.net/abstract_show/32778', githubUrl: '', image: '' },
+    { id: 2, title: 'SMEDDS Formulation of Pramlintide', desc: 'Developed and evaluated a Self-Micro Emulsifying Drug Delivery System (SMEDDS) to enhance solubility and oral bioavailability. Published in WJPR.', tags: ['SMEDDS', 'Bioavailability', 'Formulation'], emoji: '🔬', liveUrl: 'https://wjpr.net/abstract_show/30810', githubUrl: '', image: '' },
+    { id: 3, title: 'Gastroretentive Drug Delivery Systems Review', desc: 'A comprehensive review of gastroretentive strategies to improve bioavailability of poorly absorbed drugs. Published in IJPS Journal.', tags: ['Review', 'Drug Delivery'], emoji: '💊', liveUrl: 'https://www.ijpsjournal.com/article/Stay%20&%20Deliver:%20The%20Science%20Behind%20Gastroretentive%20Drug%20Delivery%20Systems%20%E2%80%93%20A%20Review', githubUrl: '', image: '' },
+    { id: 4, title: 'Comprehensive Review of Varicose Vein', desc: 'Detailed review of the pathophysiology, diagnosis, and current treatment approaches for varicose vein disease. Published in Journal of Technology.', tags: ['Review', 'Pathophysiology'], emoji: '📚', liveUrl: 'https://journaloftechnology.org/volume-12-issue-10-2024/', githubUrl: '', image: '' },
+    { id: 5, title: 'Quality Assessment of Drinking Water', desc: 'Evaluated physicochemical and microbiological quality of drinking water across multiple sources in Tiruvannamalai. Published in IJPS.', tags: ['Analytical', 'Microbiology'], emoji: '💧', liveUrl: 'https://www.ijpsjournal.com/article/Quality%20Assessment%20of%20Drinking%20Water%20from%20Different%20Water%20Supply%20in%20Tiruvannamalai%20District,%20Tamil%20Nadu,%20India', githubUrl: '', image: '' },
+  ],
+  experience: [
+    { id: 1, title: 'First Prize – Poster Presentation', org: 'APTI-TN National Conference (TIPS\'25) | Annamalai University', date: '2025', desc: 'Awarded First Prize among national-level participants for the poster titled "Enhancing Alendronate Solubility: Solid Dispersion Characterization and In-Vitro Dissolution Study." <br><br> <a href="https://cdn.b12.io/client_media/VyOzPMBb/19bb4ec2-4f93-11f1-9369-0242ac110002-Post_persentage_.pdf" target="_blank" style="color:var(--accent2); font-weight:600; text-decoration:none;">📄 View Presentation</a> &nbsp;|&nbsp; <a href="https://drive.google.com/drive/folders/1Rm21bQhJaN5IOsypuwBgCCqyhAwaf66c" target="_blank" style="color:var(--accent2); font-weight:600; text-decoration:none;">🏆 View Certificate</a>' },
+    { id: 2, title: 'Participant & Developer', org: 'Shine Healthcare Hackathon 2025 | StartupTN & Dr. M.G.R. Medical University', date: 'Aug 2025', desc: 'Developed an innovative herbal mosquito repellent formulation concept as part of a team, addressing a real-world public health challenge. <br><br> <a href="https://cdn.b12.io/client_media/VyOzPMBb/0d43ebdf-4f95-11f1-a067-0242ac110002-HERBAL_MOSQUITO_REPELLENT_anbarasu.pdf" target="_blank" style="color:var(--accent2); font-weight:600; text-decoration:none;">💡 View Project Documentation</a>' },
+  ],
+  education: [
+    { id: 1, title: 'Bachelor of Pharmacy (B.Pharm)', org: 'Kamalakshi Pandurangan College of Pharmacy (The Tamil Nadu Dr. M.G.R. Medical University)', date: '2022 – March 2026', desc: 'CGPA: 8.1 / 10.0. Strong focus on Pharmaceutical Research & Development. Active participant in national and international conferences.' },
+    { id: 2, title: 'Higher Secondary (12th)', org: 'Chezhian Matriculate Hr. Sec. School, Tiruvannamalai', date: 'May 2021', desc: 'Score: 86%. Tamil Nadu State Board.' },
+    { id: 3, title: 'Secondary (10th)', org: 'Chezhian Matriculate Hr. Sec. School, Tiruvannamalai', date: 'March 2019', desc: 'Score: 81%. Tamil Nadu State Board.' },
+  ],
+  certificates: [
+    { id: 1, title: 'Attended 10+ National and International Conferences', org: '', date: '', icon: '🏆', fileUrl: 'https://drive.google.com/drive/folders/113xj1u2fOPNsgh4syVCu-go6T-lsul6D', fileName: 'View Drive' },
+    { id: 2, title: 'Presented Scientific Poster Presentations', org: '', date: '', icon: '📊', fileUrl: 'https://drive.google.com/drive/folders/13-aAAZD6KvtGX9ebDpCNHdBPAMwY3O65', fileName: 'View Drive' },
+    { id: 3, title: 'Participated in Shine Healthcare Hackathon 2025', org: '', date: '', icon: '💡', fileUrl: 'https://drive.google.com/file/d/1UGl8IJtrLOs0ZMLtgpJ48FGNYWX67hZ0/view?usp=drivesdk', fileName: 'View Certificate' },
+    { id: 4, title: 'Participated in Pharmaceutical Science Quiz Competitions', org: '', date: '', icon: '🎯', fileUrl: 'https://drive.google.com/drive/folders/1THIfGM3XHKgrr9_QvWBIVn36bzGlkAcX', fileName: 'View Drive' },
+  ],
+  profileImage: '26dbf80c-1deb-4a8d-b64a-0ba26ae35d29-1_all_5.png',
+  resumeUrl: 'https://drive.google.com/drive/folders/1U9fTUrcQ6malnenX-ropMh_riOw9bXAW', 
+  resumeName: 'Access Google Drive Folder',
+};
+
+// Load from localStorage if available
+function loadData() {
+  try {
+    const saved = localStorage.getItem('portfolio_data');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      const tempResume = data.resumeUrl; 
+      Object.assign(data, parsed);
+      data.resumeUrl = tempResume; 
+    }
+  } catch(e) {}
+}
+
+function saveData() {
+  try { localStorage.setItem('portfolio_data', JSON.stringify(data)); } catch(e) {}
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  renderSkills();
+  renderProjects();
+  renderTimeline('experience');
+  renderTimeline('education');
+  renderCerts();
+  renderProfile();
+  renderResume();
+  updateStats();
+}
+
+function renderSkills() {
+  const grid = document.getElementById('skills-grid');
+  grid.innerHTML = data.skills.map(s => `
+    <div class="skill-card">
+      <button class="remove-btn" onclick="removeItem('skills',${s.id})">×</button>
+      <div class="skill-icon">${s.icon}</div>
+      <div class="skill-name">${s.name}</div>
+      <div class="skill-level">${s.level}</div>
+      <div class="skill-bar"><div class="skill-fill" style="width:${s.pct}%"></div></div>
+    </div>`).join('');
+}
+
+function renderProjects() {
+  const grid = document.getElementById('projects-grid');
+  grid.innerHTML = data.projects.map(p => `
+    <div class="project-card">
+      <div class="project-banner">
+        ${p.image ? `<img src="${p.image}" alt="${p.title}">` : p.emoji}
+        <div class="project-actions">
+          <button class="proj-action-btn" onclick="removeItem('projects',${p.id})" title="Delete">🗑</button>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        <div class="project-title">${p.title}</div>
+        <div class="project-desc">${p.desc}</div>
+        <div class="project-links">
+          ${p.liveUrl ? `<a href="${p.liveUrl}" class="project-link" target="_blank" rel="noopener noreferrer">🔗 Read Publication</a>` : ''}
+          ${p.githubUrl ? `<a href="${p.githubUrl}" class="project-link" target="_blank" rel="noopener noreferrer">🐙 View Link</a>` : ''}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderTimeline(type) {
+  const list = document.getElementById(`${type}-list`);
+  list.innerHTML = data[type].map(item => `
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="tl-header">
+        <div>
+          <div class="tl-title">${item.title}</div>
+          <div class="tl-org">${item.org}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="tl-date">${item.date}</span>
+          <button class="tl-remove" onclick="removeItem('${type}',${item.id})">✕ Remove</button>
+        </div>
+      </div>
+      <div class="tl-desc">${item.desc}</div>
+    </div>`).join('');
+  if (data[type].length === 0) {
+    list.innerHTML = `<p style="color:var(--muted);font-size:0.9rem">No ${type} added yet. Click "+ Add" above to add.</p>`;
+  }
+}
+
+function renderCerts() {
+  const grid = document.getElementById('certs-grid');
+  grid.innerHTML = data.certificates.map(c => `
+    <div class="cert-card">
+      <button class="cert-remove" onclick="removeItem('certificates',${c.id})">×</button>
+      <div class="cert-icon">${c.icon}</div>
+      <div class="cert-body">
+        <div class="cert-title">
+          ${c.fileUrl ? `<a href="${c.fileUrl}" target="_blank" rel="noopener noreferrer">${c.title}</a>` : c.title}
+        </div>
+        ${c.org ? `<div class="cert-org">${c.org}</div>` : ''}
+        ${c.date ? `<div class="cert-date">📅 ${c.date}</div>` : ''}
+        ${c.fileUrl ? `<a href="${c.fileUrl}" target="_blank" rel="noopener noreferrer" class="cert-file">🔗 ${c.fileName || 'View Link'}</a>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function renderProfile() {
+  if (data.profileImage) {
+    document.getElementById('profile-img').src = data.profileImage;
+    document.getElementById('profile-img').style.display = 'block';
+    document.getElementById('profile-placeholder').style.display = 'none';
+  }
+}
+
+function renderResume() {
+  if (data.resumeUrl) {
+    const viewBtn = document.getElementById('resume-view-btn');
+    viewBtn.href = data.resumeUrl;
+    
+    const dlBtn = document.getElementById('resume-download-btn');
+    dlBtn.href = data.resumeUrl;
+  }
+}
+
+function updateStats() {
+  document.getElementById('stat-projects').textContent = data.projects.length;
+  document.getElementById('stat-skills').textContent = data.skills.length;
+  document.getElementById('stat-certs').textContent = data.certificates.length;
+}
+
+// ============================================================
+// ADMIN AUTH
+// ============================================================
+let isAdmin = false;
+
+function openAdminLogin(e) {
+  if (e) e.preventDefault();
+  if (isAdmin) { logout(); return; }
+  document.getElementById('admin-login').classList.add('open');
+  setTimeout(() => document.getElementById('admin-password').focus(), 100);
+}
+
+function closeAdminLogin() {
+  document.getElementById('admin-login').classList.remove('open');
+  document.getElementById('admin-password').value = '';
+  document.getElementById('login-error').style.display = 'none';
+}
+
+function doLogin() {
+  const pw = document.getElementById('admin-password').value;
+  if (pw === ADMIN_PASSWORD) {
+    isAdmin = true;
+    document.body.classList.add('admin-mode');
+    enableEditing(true);
+    closeAdminLogin();
+    const btn = document.querySelector('.admin-btn');
+    btn.textContent = '🔓 Settings';
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('admin-password').value = '';
+  }
+}
+
+function logout() {
+  isAdmin = false;
+  document.body.classList.remove('admin-mode');
+  enableEditing(false);
+  const btn = document.querySelector('.admin-btn');
+  btn.textContent = '⚙ Admin';
+  saveData();
+}
+
+function enableEditing(on) {
+  const editables = ['hero-name','hero-tagline','about-p1','about-p2',
+    'detail-degree','detail-college','detail-grad','detail-location','detail-email','detail-phone'];
+  editables.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.contentEditable = on ? 'true' : 'false';
+      el.addEventListener('blur', () => {
+        if (id === 'detail-location') document.getElementById('contact-location').textContent = el.textContent;
+        if (id === 'hero-name') {
+          document.getElementById('footer-name').textContent = el.textContent;
+          document.getElementById('nav-name').textContent = el.textContent;
+        }
+        saveData();
+      });
+    }
+  });
+}
+
+// ============================================================
+// PROFILE PHOTO
+// ============================================================
+function triggerProfileUpload() {
+  if (!isAdmin) return;
+  document.getElementById('profile-file-input').click();
+}
+
+function handleProfileUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    data.profileImage = ev.target.result;
+    renderProfile();
+    saveData();
+  };
+  reader.readAsDataURL(file);
+}
+
+// ============================================================
+// MODAL SYSTEM
+// ============================================================
+let currentModal = '';
+
+function openModal(type) {
+  if (!isAdmin) return;
+  currentModal = type;
+  const titles = { skill: 'Add Skill', project: 'Add Publication', experience: 'Add Achievement', education: 'Add Education', cert: 'Add Activity' };
+  document.getElementById('modal-title').textContent = titles[type] || 'Add';
+  document.getElementById('modal-body').innerHTML = getModalForm(type);
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  currentModal = '';
+}
+
+function getModalForm(type) {
+  if (type === 'skill') return `
+    <div class="modal-field"><label>Skill Name</label><input id="m-name" placeholder="e.g. Formulation & Evaluation"></div>
+    <div class="modal-field"><label>Icon (emoji)</label><input id="m-icon" placeholder="🔬" value="🔬"></div>
+    <div class="modal-field"><label>Level</label>
+      <select id="m-level">
+        <option>Beginner</option><option>Basics</option><option>Intermediate</option><option>Advanced</option><option>Expert</option>
+      </select>
+    </div>
+    <div class="modal-field"><label>Proficiency % (0-100)</label><input id="m-pct" type="number" min="0" max="100" value="60"></div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveModal()">Add Skill</button>
+    </div>`;
+
+  if (type === 'project') return `
+    <div class="modal-field"><label>Title</label><input id="m-title" placeholder="Publication or Project Title"></div>
+    <div class="modal-field"><label>Description</label><textarea id="m-desc" rows="4" placeholder="Summary of research..."></textarea></div>
+    <div class="modal-field"><label>Tags (comma separated)</label><input id="m-tags" placeholder="Formulation, QC Testing"></div>
+    <div class="modal-field"><label>Emoji (for banner)</label><input id="m-emoji" placeholder="💊" value="💊"></div>
+    <div class="modal-field"><label>Read URL (optional)</label><input id="m-live" placeholder="https://..."></div>
+    <div class="modal-field"><label>Secondary URL (optional)</label><input id="m-github" placeholder="https://..."></div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveModal()">Add Item</button>
+    </div>`;
+
+  if (type === 'experience') return `
+    <div class="modal-field"><label>Achievement Title</label><input id="m-title" placeholder="First Prize Poster Presentation"></div>
+    <div class="modal-field"><label>Event / Organization</label><input id="m-org" placeholder="APTI-TN National Conference"></div>
+    <div class="modal-field"><label>Date Range</label><input id="m-date" placeholder="2025"></div>
+    <div class="modal-field"><label>Description (Supports HTML links)</label><textarea id="m-desc" rows="4" placeholder="What did you achieve?"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveModal()">Add Achievement</button>
+    </div>`;
+
+  if (type === 'education') return `
+    <div class="modal-field"><label>Degree / Course</label><input id="m-title" placeholder="B.Pharm"></div>
+    <div class="modal-field"><label>Institution</label><input id="m-org" placeholder="College / School Name"></div>
+    <div class="modal-field"><label>Year</label><input id="m-date" placeholder="2022 – 2026"></div>
+    <div class="modal-field"><label>Details (CGPA, percentage etc.)</label><textarea id="m-desc" rows="3" placeholder="CGPA: 8.5 / 10"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveModal()">Add Education</button>
+    </div>`;
+
+  if (type === 'cert') return `
+    <div class="modal-field"><label>Activity Title</label><input id="m-title" placeholder="Attended National Conference"></div>
+    <div class="modal-field"><label>Organization</label><input id="m-org" placeholder="Annamalai University"></div>
+    <div class="modal-field"><label>Year</label><input id="m-date" placeholder="2025"></div>
+    <div class="modal-field"><label>Icon (emoji)</label><input id="m-icon" placeholder="🏆" value="🏆"></div>
+    <div class="modal-field"><label>Link to Document/Drive</label><input id="m-file-url" placeholder="https://drive.google.com/..."></div>
+    <div class="modal-field"><label>Link Text</label><input id="m-file-name" placeholder="View Certificate" value="View Link"></div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveModal()">Add Activity</button>
+    </div>`;
+  return '';
+}
+
+function saveModal() {
+  const newId = Date.now();
+  if (currentModal === 'skill') {
+    const name = document.getElementById('m-name').value.trim();
+    if (!name) { alert('Please enter a skill name'); return; }
+    data.skills.push({ id: newId, name, icon: document.getElementById('m-icon').value || '💡', level: document.getElementById('m-level').value, pct: parseInt(document.getElementById('m-pct').value) || 60 });
+    renderSkills();
+  } else if (currentModal === 'project') {
+    const title = document.getElementById('m-title').value.trim();
+    if (!title) { alert('Please enter a title'); return; }
+    const tagsRaw = document.getElementById('m-tags').value;
+    data.projects.push({ id: newId, title, desc: document.getElementById('m-desc').value, tags: tagsRaw.split(',').map(t=>t.trim()).filter(Boolean), emoji: document.getElementById('m-emoji').value || '💊', liveUrl: document.getElementById('m-live').value, githubUrl: document.getElementById('m-github').value, image: '' });
+    renderProjects();
+  } else if (currentModal === 'experience') {
+    const title = document.getElementById('m-title').value.trim();
+    if (!title) { alert('Please enter a title'); return; }
+    data.experience.push({ id: newId, title, org: document.getElementById('m-org').value, date: document.getElementById('m-date').value, desc: document.getElementById('m-desc').value });
+    renderTimeline('experience');
+  } else if (currentModal === 'education') {
+    const title = document.getElementById('m-title').value.trim();
+    if (!title) { alert('Please enter a degree/course name'); return; }
+    data.education.push({ id: newId, title, org: document.getElementById('m-org').value, date: document.getElementById('m-date').value, desc: document.getElementById('m-desc').value });
+    renderTimeline('education');
+  } else if (currentModal === 'cert') {
+    const title = document.getElementById('m-title').value.trim();
+    if (!title) { alert('Please enter a title'); return; }
+    data.certificates.push({ id: newId, title, org: document.getElementById('m-org').value, date: document.getElementById('m-date').value, icon: document.getElementById('m-icon').value || '🏆', fileUrl: document.getElementById('m-file-url').value, fileName: document.getElementById('m-file-name').value });
+    renderCerts();
+  }
+  updateStats();
+  saveData();
+  closeModal();
+}
+
+// ============================================================
+// REMOVE ITEMS
+// ============================================================
+function removeItem(type, id) {
+  if (!isAdmin) return;
+  if (!confirm('Remove this item?')) return;
+  if (type === 'certificates') {
+    data.certificates = data.certificates.filter(i => i.id !== id);
+    renderCerts();
+  } else if (type === 'experience' || type === 'education') {
+    data[type] = data[type].filter(i => i.id !== id);
+    renderTimeline(type);
+  } else {
+    data[type] = data[type].filter(i => i.id !== id);
+    if (type === 'skills') renderSkills();
+    if (type === 'projects') renderProjects();
+  }
+  updateStats();
+  saveData();
+}
+
+// ============================================================
+// CONTACT FORM
+// ============================================================
+function sendMessage() {
+  alert('Thank you for reaching out! (Connect to a backend service like EmailJS in production to receive emails.)');
+}
+
+// ============================================================
+// NAV ACTIVE
+// ============================================================
+function setActive(el) {
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Close modal on overlay click
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ============================================================
+// INIT
+// ============================================================
+loadData();
+render();
+enableEditing(false);
+</script>
+</body>
+</html>
