@@ -47,7 +47,7 @@ To run these applications, you must have **Python 3.x** installed on your system
    * **For ShieldPharma Finance:** `python online_banking.py` (or the specific filename for Task 2).
    * **For Med-Snake:** `python med_snake.py` (or the specific filename for Task 3).
 5. **Note:** Both Python scripts utilize `tkinter` and `sqlite3`, which are included in Python's standard library. No additional `pip` installations are required.
-6. 
+   
 ## 👨‍🔬 About the Creator
 **Anbarasu Murugan**
 B.Pharm Graduate | Formulation & Development | QA & QC
