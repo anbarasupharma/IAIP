@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Stopwatch</title>
+    <style>
+        /* Modern, Dark Blue Theme */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #051630; /* Deep navy blue */
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .stopwatch-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 28px;
+            color: #8da4d0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Medical Animation - Glowing Pulse Cross */
+        .medical-anim {
+            font-size: 40px;
+            color: #2e5c43; /* Dim green when stopped */
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        /* This class is added via JavaScript only when running */
+        .medical-anim.running {
+            color: #00ff88; /* Bright medical green */
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+            animation: heartbeat 1s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.25); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+            60% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+
+        /* The Timer Display */
+        #display {
+            font-size: 70px;
+            font-weight: bold;
+            font-variant-numeric: tabular-nums; 
+            margin: 10px 0 30px 0;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .ms {
+            font-size: 40px;
+            color: #a0b8e6;
+        }
+
+        /* Buttons */
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            flex: 1;
+            min-width: 90px;
+        }
+
+        #startBtn { background-color: #28a745; color: white; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4); }
+        #startBtn:hover { background-color: #218838; transform: translateY(-2px); }
+
+        #pauseBtn { background-color: #ffc107; color: #333; box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4); }
+        #pauseBtn:hover { background-color: #e0a800; transform: translateY(-2px); }
+        
+        #lapBtn { background-color: #17a2b8; color: white; box-shadow: 0 4px 15px rgba(23, 162, 184, 0.4); }
+        #lapBtn:hover { background-color: #138496; transform: translateY(-2px); }
+
+        #resetBtn { background-color: #dc3545; color: white; box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4); }
+        #resetBtn:hover { background-color: #c82333; transform: translateY(-2px); }
+
+        /* Lap List Styling */
+        .lap-container {
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+        }
+
+        #lapList {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        #lapList li {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 12px 20px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-variant-numeric: tabular-nums;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        #lapList li .lap-number { color: #8da4d0; font-weight: bold; }
+        #lapList li .lap-time { color: #00ff88; font-weight: bold; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scrollbar styling for laps */
+        #lapList::-webkit-scrollbar { width: 8px; }
+        #lapList::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        #lapList::-webkit-scrollbar-thumb { background: #4a628a; border-radius: 10px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="stopwatch-container">
+        <h1>Clinical Timer</h1>
+        
+        <!-- Medical Animation Icon -->
+        <div id="medical-icon" class="medical-anim">✚</div>
+        
+        <!-- Timer Display -->
+        <div id="display">
+            <span id="minutes">00</span>:<span id="seconds">00</span><span class="ms">.<span id="milliseconds">000</span></span>
+        </div>
+        
+        <!-- Controls -->
+        <div class="controls">
+            <button id="startBtn" onclick="startTimer()">Start</button>
+            <button id="pauseBtn" onclick="pauseTimer()">Pause</button>
+            <button id="lapBtn" onclick="recordLap()">Lap</button>
+            <button id="resetBtn" onclick="resetTimer()">Reset</button>
+        </div>
+
+        <!-- Laps Output -->
+        <div class="lap-container">
+            <ul id="lapList">
+                <!-- Laps will appear here -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // --- STOPWATCH LOGIC ---
+        let startTime;
+        let elapsedTime = 0;
+        let timerInterval;
+        let lapCount = 0;
+
+        // Get HTML elements
+        const minElement = document.getElementById("minutes");
+        const secElement = document.getElementById("seconds");
+        const msElement = document.getElementById("milliseconds");
+        const medicalIcon = document.getElementById("medical-icon");
+        const lapList = document.getElementById("lapList");
+
+        function formatTime(time, digits) {
+            return time.toString().padStart(digits, '0');
+        }
+
+        function updateDisplay() {
+            let time = elapsedTime;
+            let ms = time % 1000;
+            time = Math.floor(time / 1000);
+            let s = time % 60;
+            let m = Math.floor(time / 60);
+
+            minElement.innerText = formatTime(m, 2);
+            secElement.innerText = formatTime(s, 2);
+            msElement.innerText = formatTime(ms, 3);
+        }
+
+        function startTimer() {
+            if (!timerInterval) {
+                startTime = Date.now() - elapsedTime;
+                timerInterval = setInterval(() => {
+                    elapsedTime = Date.now() - startTime;
+                    updateDisplay();
+                }, 10);
+                
+                // Turn on the medical heartbeat animation
+                medicalIcon.classList.add("running");
+            }
+        }
+
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null; 
+            
+            // Turn off the animation
+            medicalIcon.classList.remove("running");
+        }
+
+        function recordLap() {
+            // Only allow lapping if the timer has started (elapsedTime > 0)
+            if (elapsedTime > 0) {
+                lapCount++;
+                
+                // Calculate current formatted time for the lap
+                let time = elapsedTime;
+                let ms = time % 1000;
+                time = Math.floor(time / 1000);
+                let s = time % 60;
+                let m = Math.floor(time / 60);
+                
+                const formattedLapTime = `${formatTime(m, 2)}:${formatTime(s, 2)}.${formatTime(ms, 3)}`;
+
+                // Create a new list item and insert it at the top of the list
+                const li = document.createElement("li");
+                li.innerHTML = `<span class="lap-number">Lap ${lapCount}</span> <span class="lap-time">${formattedLapTime}</span>`;
+                
+                lapList.prepend(li);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            elapsedTime = 0;
+            lapCount = 0;
+            updateDisplay(); 
+            
+            // Turn off animation and clear laps
+            medicalIcon.classList.remove("running");
+            lapList.innerHTML = ""; 
+        }
+    </script>
+</body>
+</html>
