@@ -16,7 +16,7 @@ A comprehensive, responsive web portfolio designed for a pharmaceutical professi
 ### 2. Pharmacy Tic-Tac-Toe (`Task_1-TicTacToe/`)
 A medical twist on the classic game of Tic-Tac-Toe.
 *   Developed as a single-page web application using HTML, CSS, and JavaScript.
-*   Replaces the traditional X and O with a unique "Tablet vs Capsule" theme[cite: 2].
+*   Replaces the traditional X and O with a unique "Tablet vs Capsule" theme.
 *   Features an active game history tracker, win counters, and dynamic turn indicators.
 
 ### 3. ShieldPharma Finance System (`Task_2-Online Banking System (GUI)/`)
@@ -46,6 +46,7 @@ To run these applications, you must have **Python 3.x** installed on your system
 4. Run the Python scripts using the following commands:
    * **For ShieldPharma Finance:** `python online_banking.py` (or the specific filename for Task 2).
    * **For Med-Snake:** `python med_snake.py` (or the specific filename for Task 3).
+
 5.Note: Both Python scripts utilize `tkinter` and `sqlite3`, which are included in Python's standard library. No additional `pip` installations are required.
    
 👨‍🔬 About the Creator
